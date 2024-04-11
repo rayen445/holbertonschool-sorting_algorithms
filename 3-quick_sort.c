@@ -1,38 +1,75 @@
-#include <stdio.h>
+#include "sort.h"
 
 /**
- * print_array - Prints an array of integers
- *
- * @array: The array to be printed
- * @size: Number of elements in the array
+ * quick_sort - Sorts an array of integers in ascending order using
+ *              the Quick sort algorithm.
+ * @array: The array to sort.
+ * @size: The size of the array.
  */
-void print_array(const int *array, size_t size)
+void quick_sort(int *array, size_t size)
 {
-    size_t i;
+    if (array == NULL || size < 2)
+        return;
 
-    for (i = 0; i < size; ++i)
-    {
-        printf("%d", array[i]);
-        if (i < size - 1)
-            printf(", ");
-    }
-    printf("\n");
+    _quick_sort(array, 0, size - 1, size);
 }
 
 /**
- * main - Entry point
- *
- * Return: Always 0
+ * _quick_sort - Recursively sorts a partition of an array of integers
+ *               in ascending order using the Quick sort algorithm.
+ * @array: The array to sort.
+ * @low: The starting index of the partition to sort.
+ * @high: The ending index of the partition to sort.
+ * @size: The size of the original array.
  */
-int main(void)
+void _quick_sort(int *array, int low, int high, size_t size)
 {
-    int array[] = {19, 48, 99, 71, 13, 52, 96, 73, 86, 7};
-    size_t n = sizeof(array) / sizeof(array[0]);
+    int pivot;
 
-    print_array(array, n);
-    printf("\n");
-    quick_sort(array, n);
-    printf("\n");
-    print_array(array, n);
-    return (0);
+    if (low < high)
+    {
+        pivot = _partition(array, low, high, size);
+        _quick_sort(array, low, pivot - 1, size);
+        _quick_sort(array, pivot + 1, high, size);
+    }
+}
+
+/**
+ * _partition - Partitions a subarray of integers around a pivot
+ *              using the Lomuto partition scheme.
+ * @array: The array to partition.
+ * @low: The starting index of the subarray.
+ * @high: The ending index of the subarray.
+ * @size: The size of the original array.
+ *
+ * Return: The final pivot position.
+ */
+int _partition(int *array, int low, int high, size_t size)
+{
+    int pivot = array[high];
+    int i = low - 1;
+    int j, temp;
+
+    for (j = low; j <= high - 1; j++)
+    {
+        if (array[j] < pivot)
+        {
+            i++;
+            if (i != j)
+            {
+                temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+                print_array(array, size);
+            }
+        }
+    }
+    if (array[i + 1] != array[high])
+    {
+        temp = array[i + 1];
+        array[i + 1] = array[high];
+        array[high] = temp;
+        print_array(array, size);
+    }
+    return (i + 1);
 }

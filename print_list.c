@@ -1,4 +1,5 @@
 #include "sort.h"
+#include <stdio.h>
 
 /**
  * print_list - Prints a doubly linked list of integers
@@ -11,9 +12,9 @@ void print_list(const listint_t *list)
     while (current != NULL)
     {
         printf("%d", current->n);
-        current = current->next;
-        if (current != NULL)
+        if (current->next != NULL)
             printf(", ");
+        current = current->next;
     }
     printf("\n");
 }

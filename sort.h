@@ -1,9 +1,16 @@
 #ifndef SORT_H
 #define SORT_H
 
-#include <stdio.h>
+#include <stddef.h>
 
-/* Doubly linked list node structure */
+/**
+ * struct listint_s - Doubly linked list node
+ * @n: Integer stored in the node
+ * @prev: Pointer to the previous element of the list
+ * @next: Pointer to the next element of the list
+ *
+ * Description: Doubly linked list node structure
+ */
 typedef struct listint_s
 {
     const int n;
@@ -12,7 +19,6 @@ typedef struct listint_s
 } listint_t;
 
 /* Function prototypes */
-void print_array(const int *array, size_t size);
 void print_list(const listint_t *list);
 void insertion_sort_list(listint_t **list);
 

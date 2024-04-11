@@ -1,35 +1,39 @@
 #include "sort.h"
 
 /**
- * insertion_sort_list - Sorts a doubly linked list of integers in ascending
- *                       order using the Insertion sort algorithm
- * @list: A pointer to the pointer to the head of the list
+ * insertion_sort_list - Sorts a doubly linked list of integers
+ *                       in ascending order using the Insertion sort algorithm
+ * @list: Pointer to a pointer to the head of the list
  */
 void insertion_sort_list(listint_t **list)
 {
     if (list == NULL || *list == NULL || (*list)->next == NULL)
         return;
 
-    listint_t *curr = (*list)->next;
-    listint_t *tmp;
+    listint_t *curr = (*list)->next, *tmp;
 
     while (curr != NULL)
     {
-        tmp = curr;
-        curr = curr->next;
-        while (tmp->prev != NULL && tmp->n < tmp->prev->n)
+        tmp = curr->prev;
+        while (tmp != NULL && tmp->n > curr->n)
         {
-            tmp->prev->next = tmp->next;
-            if (tmp->next != NULL)
-                tmp->next->prev = tmp->prev;
-            tmp->next = tmp->prev;
-            tmp->prev = tmp->next->prev;
-            tmp->next->prev = tmp;
-            if (tmp->prev == NULL)
-                *list = tmp;
+            if (curr->next != NULL)
+                curr->next->prev = tmp;
+
+            tmp->next = curr->next;
+            curr->next = tmp;
+            curr->prev = tmp->prev;
+
+            if (tmp->prev != NULL)
+                tmp->prev->next = curr;
             else
-                tmp->prev->next = tmp;
+                *list = curr;
+
+            tmp->prev = curr;
+
             print_list(*list);
+            tmp = curr->prev;
         }
+        curr = curr->next;
     }
 }
